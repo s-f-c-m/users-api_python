@@ -11,8 +11,6 @@ class User(BaseModel):
     password: str = Field(...)
     name: str = Field(...)
     roles: List[Role]
-    # first_name: str
-    # last_name: str
 
 class UpdateUserModel(BaseModel):
     password: str = Field(...)

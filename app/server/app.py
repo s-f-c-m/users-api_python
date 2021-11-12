@@ -1,10 +1,8 @@
-from fastapi import FastAPI, Depends, HTTPException
-# from .models import User, AuthUser
+from fastapi import FastAPI, Depends
 from .auth import AuthHandler
 from app.server.routes.user import router as UserRouter
 from app.server.routes.auth import router as AuthRouter
 from fastapi.middleware.cors import CORSMiddleware
-# from typing import List
 
 app = FastAPI()
 
@@ -19,13 +17,12 @@ app.add_middleware(
 )
 
 auth_handler = AuthHandler()
-db = []
 app.include_router(UserRouter, tags=["User"], prefix="/user")
 app.include_router(AuthRouter, tags=["Login"], prefix="/login")
 
 @app.get('/')
 def root():
-    return {"Hello":"World", "I'm":"Here"}
+    return {"Hello":"World"}
 
 
 @app.get('/api/users')

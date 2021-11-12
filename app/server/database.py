@@ -1,6 +1,5 @@
 import motor.motor_asyncio
 from decouple import config
-# from bson.objectid import ObjectId
 
 MONGO_DETAILS = config('MONGO_DETAILS')
 
@@ -40,7 +39,7 @@ async def update_user(user: str, data: dict):
     if len(data) < 1:
         return False
     user_to_update = await users_collection.find_one({"user": user})
-    if user:
+    if user_to_update:
         updated_user = await users_collection.update_one(
             {"user": user}, {'$set': data}
         )
