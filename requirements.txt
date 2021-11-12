@@ -1,0 +1,42 @@
+anyio==3.3.4
+asgiref==3.4.1
+bcrypt==3.2.0
+brotlipy==0.7.0
+certifi==2021.5.30
+cffi==1.15.0
+chardet @ file:///tmp/build/80754af9/chardet_1607706775000/work
+click==8.0.3
+conda==4.10.3
+conda-package-handling @ file:///tmp/build/80754af9/conda-package-handling_1618262147379/work
+cryptography @ file:///tmp/build/80754af9/cryptography_1616767007030/work
+fastapi==0.70.0
+greenlet==1.1.2
+h11==0.12.0
+httptools==0.2.0
+idna==3.3
+motor==2.5.1
+msgpack==1.0.2
+passlib==1.7.4
+pycosat==0.6.3
+pycparser==2.21
+pydantic==1.8.2
+PyJWT==2.3.0
+pymongo==3.12.1
+pynvim==0.4.3
+pyOpenSSL @ file:///tmp/build/80754af9/pyopenssl_1608057966937/work
+PySocks @ file:///tmp/build/80754af9/pysocks_1605305812635/work
+python-decouple==3.5
+python-dotenv==0.19.2
+PyYAML==6.0
+requests @ file:///tmp/build/80754af9/requests_1608241421344/work
+ruamel-yaml-conda @ file:///tmp/build/80754af9/ruamel_yaml_1616016711199/work
+six @ file:///tmp/build/80754af9/six_1623709665295/work
+sniffio==1.2.0
+starlette==0.16.0
+tqdm @ file:///tmp/build/80754af9/tqdm_1625563689033/work
+typing-extensions==3.10.0.2
+urllib3 @ file:///tmp/build/80754af9/urllib3_1625084269274/work
+uvicorn==0.15.0
+uvloop==0.16.0
+watchgod==0.7
+websockets==10.0
