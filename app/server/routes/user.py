@@ -12,7 +12,9 @@ from app.server.database import (
 
 from app.server.models import (
     User,
-    UpdateUserModel
+    UpdateUserModel,
+    ErrorResponse,
+    SuccessResponse
 )
 
 router = APIRouter()
@@ -23,7 +25,9 @@ async def add_user_data(user: User = Body(...)):
     user.password = auth_handler.get_password_hash(user.password) 
     user = jsonable_encoder(user)
     new_user = await add_user(user)
-    return {"message": "Usuario registrado", 'code': 200, "user": new_user}
+    if new_user == {}:
+        return ErrorResponse('Error al ingresar usuario', 401, 'Usuario o email ya existe')
+    return SuccessResponse(new_user, 'Usuario agregado satisfactoriamente') 
 
 @router.get("/", response_description="Usuarios recibidos")
 async def get_users():

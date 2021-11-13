@@ -1,5 +1,7 @@
+from enum import unique
 import motor.motor_asyncio
 from decouple import config
+import pymongo
 
 MONGO_DETAILS = config('MONGO_DETAILS')
 
@@ -9,14 +11,20 @@ database = client[config('MONGO_DB')]
 
 users_collection = database.get_collection(config('MONGO_COLLECTION'))
 
+
 def user_helper(user) -> dict:
     return{
         'id': str(user['_id']),
         'user': user['user'],
         'name': user['name'],
         'password': user['password'],
+        'email': user['email'],
         'roles': user['roles']
     }
+
+async def create_indexes():
+    await users_collection.create_index('user',  unique=True)
+    await users_collection.create_index('email', unique=True)
 
 async def fetch_users():
     users = []
@@ -25,7 +33,12 @@ async def fetch_users():
     return users
 
 async def add_user(user_data: dict) -> dict:
-    user = await users_collection.insert_one(user_data)
+    await create_indexes()
+    new_user = {}
+    try:
+        user = await users_collection.insert_one(user_data)
+    except pymongo.errors.DuplicateKeyError:
+        return new_user 
     new_user = await users_collection.find_one({'_id': user.inserted_id})
     return user_helper(new_user)
 

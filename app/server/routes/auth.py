@@ -1,4 +1,4 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 from fastapi import APIRouter
 from app.server.auth import AuthHandler
 from app.server.models import AuthUser
@@ -17,3 +17,6 @@ async def login(auth_details: AuthUser):
     token = auth_handler.encode_token(user['user'], user['roles'])
     return { 'token': token}
 
+@router.get('/validate')
+async def validate(sub=Depends(auth_handler.auth_wrapper)):
+    return {"logged": sub} 
