@@ -18,5 +18,6 @@ async def login(auth_details: AuthUser):
     return { 'token': token}
 
 @router.get('/validate')
-async def validate(sub=Depends(auth_handler.auth_wrapper)):
-    return {"logged": sub} 
+async def validate(payload=Depends(auth_handler.auth_wrapper)):
+    return payload
+    # return {"logged": sub,"roles":roles} 
