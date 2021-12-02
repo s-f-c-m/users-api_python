@@ -20,6 +20,15 @@ class UpdateUserModel(BaseModel):
     name: str = Field(...)
     roles: List[Role]
 
+class UpdateUserPassword(BaseModel):
+    password: str = Field(...)
+
+class UpdateUserName(BaseModel):
+    name: str = Field(...)
+
+class UpdateUserRoles(BaseModel):
+    roles: List[Role]
+
 class AuthUser(BaseModel):
     user: str = Field(...)
     password: str = Field(...)

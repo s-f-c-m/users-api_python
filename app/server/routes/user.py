@@ -13,6 +13,9 @@ from app.server.database import (
 from app.server.models import (
     User,
     UpdateUserModel,
+    UpdateUserPassword,
+    UpdateUserName,
+    UpdateUserRoles,
     ErrorResponse,
     SuccessResponse
 )
@@ -51,6 +54,31 @@ async def update_user_data(user: str, req: UpdateUserModel = Body(...)):
     if updated_user:
         return {"message": "Usuario actualizado", "code": 200}
     return {"message": "Error al actualizar el usuario", "code": 404}
+
+@router.put('/password/{user}')
+async def update_user_password(user:str, req: UpdateUserPassword = Body(...)):
+    req = {k: v for k, v in req.dict().items() if v is not None}
+    req['password'] = auth_handler.get_password_hash(req['password'])
+    updated_user = await update_user(user, req)
+    if updated_user:
+        return {'message': 'Usuario actualizado', 'code':200}
+    return {'message': 'Error al actualizar el usuario', 'code': 404}
+
+@router.put('/name/{user}')
+async def update_user_name(user:str, req: UpdateUserName = Body(...)):
+    req = {k: v for k, v in req.dict().items() if v is not None}
+    updated_user = await update_user(user, req)
+    if updated_user:
+        return {'message': 'Usuario actualizado', 'code':200}
+    return {'message': 'Error al actualizar el usuario', 'code': 404}
+
+@router.put('/roles/{user}')
+async def update_user_roles(user:str, req: UpdateUserRoles = Body(...)):
+    req = {k: v for k, v in req.dict().items() if v is not None}
+    updated_user = await update_user(user, req)
+    if updated_user:
+        return {'message': 'Usuario actualizado', 'code':200}
+    return {'message': 'Error al actualizar el usuario', 'code': 404}
 
 @router.delete("/{user}")
 async def delete_user_data(user: str):
