@@ -6,7 +6,11 @@ from pydantic.networks import EmailStr
 
 class Role(str, Enum):
     admin = "admin"
-    user = "user"
+    usuarios = "usuarios"
+    cliente ='cliente'
+    ventas = 'ventas'
+    reportes = 'reportes'
+    productos = 'productos'
 
 class User(BaseModel):
     user: str = Field(...)

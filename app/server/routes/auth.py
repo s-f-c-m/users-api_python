@@ -14,7 +14,7 @@ async def login(auth_details: AuthUser):
 
     if (user is None) or (not auth_handler.verify_password(auth_details.password, user['password'])):
         raise HTTPException(status_code=401, detail='Invalid user or password')
-    token = auth_handler.encode_token(user['user'], user['roles'])
+    token = auth_handler.encode_token(user['user'], user['roles'], user['name'], user['email'])
     return { 'token': token}
 
 @router.get('/validate')

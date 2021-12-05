@@ -18,11 +18,13 @@ class AuthHandler():
     def verify_password(self, plain_password, hashed_password):
         return self.pwd_context.verify(plain_password, hashed_password)
 
-    def encode_token(self, user_id, roles):
+    def encode_token(self, user_id, roles, name, email):
         payload = {
             'exp': datetime.utcnow() + timedelta(days=0, minutes=60),
             'iat': datetime.utcnow(),
             'sub': user_id,
+            'name': name,
+            'email': email,
             'roles': roles
         }
         return jwt.encode(
