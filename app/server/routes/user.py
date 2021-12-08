@@ -14,6 +14,7 @@ from app.server.models import (
     User,
     UpdateUserModel,
     UpdateUserPassword,
+    UpdateUserNameRoles,
     UpdateUserName,
     UpdateUserRoles,
     ErrorResponse,
@@ -50,6 +51,14 @@ async def get_user(user):
 async def update_user_data(user: str, req: UpdateUserModel = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     req['password'] = auth_handler.get_password_hash(req['password'])
+    updated_user = await update_user(user, req)
+    if updated_user:
+        return {"message": "Usuario actualizado", "code": 200}
+    return {"message": "Error al actualizar el usuario", "code": 404}
+
+@router.put("/nameroles/{user}")
+async def update_user_name_roles(user: str, req: UpdateUserNameRoles = Body(...)):
+    req = {k: v for k, v in req.dict().items() if v is not None}
     updated_user = await update_user(user, req)
     if updated_user:
         return {"message": "Usuario actualizado", "code": 200}

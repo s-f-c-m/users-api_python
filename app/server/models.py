@@ -27,6 +27,10 @@ class UpdateUserModel(BaseModel):
 class UpdateUserPassword(BaseModel):
     password: str = Field(...)
 
+class UpdateUserNameRoles(BaseModel):
+    name: str = Field(...)
+    roles: List[Role]
+
 class UpdateUserName(BaseModel):
     name: str = Field(...)
 
