@@ -1,4 +1,3 @@
 .env
 users-api/
 __pycache__
-Dockerfile
