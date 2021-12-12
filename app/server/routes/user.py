@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Depends
 from fastapi.encoders import jsonable_encoder
 from app.server.auth import AuthHandler
 
@@ -34,21 +34,24 @@ async def add_user_data(user: User = Body(...)):
     return SuccessResponse(new_user, 'Usuario agregado satisfactoriamente') 
 
 @router.get("/", response_description="Usuarios recibidos")
-async def get_users():
+async def get_users(auth=Depends(auth_handler.auth_wrapper)):
+    print(auth)
     users = await fetch_users()
     if users:
         return {"message": "Lista de usuarios leída", "usuarios": users}
     return {"message": "Lista de usuarios vacía", "code": 200, "usuarios": users}
 
 @router.get("/{user}", response_description="Usuario recibido")
-async def get_user(user):
+async def get_user(user, auth=Depends(auth_handler.auth_wrapper)):
+    print(auth)
     user = await fetch_user(user)
     if user:
         return {'message':'usuario leído con éxito', "code": 200, 'user':user}
     return {'mesage':'usuario no encontrado', 'code':404 }
 
 @router.put("/{user}")
-async def update_user_data(user: str, req: UpdateUserModel = Body(...)):
+async def update_user_data(user: str, req: UpdateUserModel = Body(...), auth=Depends(auth_handler.auth_wrapper)):
+    print(auth)
     req = {k: v for k, v in req.dict().items() if v is not None}
     req['password'] = auth_handler.get_password_hash(req['password'])
     updated_user = await update_user(user, req)
@@ -57,7 +60,8 @@ async def update_user_data(user: str, req: UpdateUserModel = Body(...)):
     return {"message": "Error al actualizar el usuario", "code": 404}
 
 @router.put("/nameroles/{user}")
-async def update_user_name_roles(user: str, req: UpdateUserNameRoles = Body(...)):
+async def update_user_name_roles(user: str, req: UpdateUserNameRoles = Body(...), auth=Depends(auth_handler.auth_wrapper)):
+    print(auth)
     req = {k: v for k, v in req.dict().items() if v is not None}
     updated_user = await update_user(user, req)
     if updated_user:
@@ -65,7 +69,8 @@ async def update_user_name_roles(user: str, req: UpdateUserNameRoles = Body(...)
     return {"message": "Error al actualizar el usuario", "code": 404}
 
 @router.put('/password/{user}')
-async def update_user_password(user:str, req: UpdateUserPassword = Body(...)):
+async def update_user_password(user:str, req: UpdateUserPassword = Body(...), auth=Depends(auth_handler.auth_wrapper)):
+    print(auth)
     req = {k: v for k, v in req.dict().items() if v is not None}
     req['password'] = auth_handler.get_password_hash(req['password'])
     updated_user = await update_user(user, req)
@@ -74,7 +79,8 @@ async def update_user_password(user:str, req: UpdateUserPassword = Body(...)):
     return {'message': 'Error al actualizar el usuario', 'code': 404}
 
 @router.put('/name/{user}')
-async def update_user_name(user:str, req: UpdateUserName = Body(...)):
+async def update_user_name(user:str, req: UpdateUserName = Body(...), auth=Depends(auth_handler.auth_wrapper)):
+    print(auth)
     req = {k: v for k, v in req.dict().items() if v is not None}
     updated_user = await update_user(user, req)
     if updated_user:
@@ -82,7 +88,8 @@ async def update_user_name(user:str, req: UpdateUserName = Body(...)):
     return {'message': 'Error al actualizar el usuario', 'code': 404}
 
 @router.put('/roles/{user}')
-async def update_user_roles(user:str, req: UpdateUserRoles = Body(...)):
+async def update_user_roles(user:str, req: UpdateUserRoles = Body(...), auth=Depends(auth_handler.auth_wrapper)):
+    print(auth)
     req = {k: v for k, v in req.dict().items() if v is not None}
     updated_user = await update_user(user, req)
     if updated_user:
@@ -90,7 +97,8 @@ async def update_user_roles(user:str, req: UpdateUserRoles = Body(...)):
     return {'message': 'Error al actualizar el usuario', 'code': 404}
 
 @router.delete("/{user}")
-async def delete_user_data(user: str):
+async def delete_user_data(user: str, auth=Depends(auth_handler.auth_wrapper)):
+    print(auth)
     deleted_user = await delete_user(user)
     if deleted_user:
         return {"message":"Usuario eliminado", "code":200}

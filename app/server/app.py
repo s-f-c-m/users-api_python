@@ -25,6 +25,6 @@ def root():
     return {"Hello":"World"}
 
 
-@app.get('/api/users')
-async def fetch_users(username=Depends(auth_handler.auth_wrapper)):
-    return {"message": username} 
+# @app.get('/api/users')
+# async def fetch_users(username=Depends(auth_handler.auth_wrapper)):
+#     return {"message": username} 
